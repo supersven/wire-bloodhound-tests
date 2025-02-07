@@ -22,3 +22,9 @@ test-suite wire-bloodhound-tests-test
     main-is:          Main.hs
     build-depends:    base ^>=4.18.2.1
                       , bloodhound
+                      , hspec
+                      , http-client
+                      , text
+                      , HsOpenSSL
+                      , http-client-openssl
+                      , unliftio
