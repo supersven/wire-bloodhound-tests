@@ -10,7 +10,7 @@ category:           Testing
 build-type:         Simple
 
 common warnings
-    ghc-options: -Wall
+    ghc-options: -Wall -threaded
 
 test-suite wire-bloodhound-tests-test
     import:           warnings
@@ -28,3 +28,6 @@ test-suite wire-bloodhound-tests-test
                       , HsOpenSSL
                       , http-client-openssl
                       , unliftio
+                      , aeson
+                      , QuickCheck
+                      , http-types
