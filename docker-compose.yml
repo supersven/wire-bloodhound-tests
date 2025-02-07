@@ -8,8 +8,8 @@ networks:
         - subnet: 172.20.7.0/24
 
 services:
-  elasticsearch:
-    container_name: bloodhound_tests_elasticsearch
+  elasticsearch_5:
+    container_name: bloodhound_tests_elasticsearch_5
     build:
       context: .
       dockerfile_inline: |
@@ -17,6 +17,31 @@ services:
         RUN /usr/share/elasticsearch/bin/elasticsearch-plugin install x-pack -b
         # this seems to be necessary to run X-Pack on Alpine (https://discuss.elastic.co/t/elasticsearch-failing-to-start-due-to-x-pack/85125/7)
         RUN rm -rf /usr/share/elasticsearch/plugins/x-pack/platform/linux-x86_64
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "127.0.0.1:7202:9200"
+      - "127.0.0.1:7302:9300"
+    environment:
+      - "xpack.ml.enabled=false"
+      - "xpack.security.enabled=true"
+      - "xpack.security.http.ssl.enabled=true"
+      - "xpack.ssl.certificate=certs/elasticsearch-cert.pem"
+      - "xpack.ssl.key=certs/elasticsearch-key.pem"
+      - "bootstrap.system_call_filter=false"
+      - "JVM_OPTIONS_ES=-Xmx512m -Xms512m"
+      - "discovery.type=single-node"
+    volumes:
+      - ./docker/elasticsearch-cert.pem:/usr/share/elasticsearch/config/certs/elasticsearch-cert.pem
+      - ./docker/elasticsearch-key.pem:/usr/share/elasticsearch/config/certs/elasticsearch-key.pem
+    networks:
+      - bloodhound_tests
+
+  elasticsearch_6:
+    container_name: bloodhound_tests_elasticsearch_6
+    image: elasticsearch:6.8.23
     ulimits:
       nofile:
         soft: 65536
@@ -33,6 +58,7 @@ services:
       - "bootstrap.system_call_filter=false"
       - "JVM_OPTIONS_ES=-Xmx512m -Xms512m"
       - "discovery.type=single-node"
+      - ELASTIC_PASSWORD=changeme
     volumes:
       - ./docker/elasticsearch-cert.pem:/usr/share/elasticsearch/config/certs/elasticsearch-cert.pem
       - ./docker/elasticsearch-key.pem:/usr/share/elasticsearch/config/certs/elasticsearch-key.pem
