@@ -31,3 +31,4 @@ test-suite wire-bloodhound-tests-test
                       , aeson
                       , QuickCheck
                       , http-types
+                      , containers
