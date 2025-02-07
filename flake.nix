@@ -90,6 +90,7 @@
               packages = p: [ p.wire-bloodhound-tests ];
               withHoogle = true;
               buildInputs = [
+                pkgs.docker-compose
                 pkgs.ghcid
                 pkgs.statix
                 statix-command
