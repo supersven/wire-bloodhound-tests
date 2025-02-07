@@ -5,13 +5,22 @@ module Lib where
 
 import Control.Monad.IO.Class
 import Data.Text
+import Data.Text qualified as Text
 import Database.Bloodhound qualified as ES
 import Network.HTTP.Client
 import Network.HTTP.Client.OpenSSL (opensslManagerSettings)
 import OpenSSL.Session (SSLOption (..))
 import OpenSSL.Session qualified as SSL
 import Test.Hspec
+import Test.QuickCheck
 import UnliftIO.Directory
+
+genIndexName :: Gen ES.IndexName
+genIndexName =
+  ES.IndexName . Text.pack
+    <$> (listOf (elements ['a' .. 'z']) `suchThat` ((< 255) . Prelude.length))
+
+--- Blow is wire-server code
 
 runBH :: (MonadIO m, HasCallStack) => Text -> ES.BH m a -> m a
 runBH esURL action = do
