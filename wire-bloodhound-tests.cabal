@@ -15,7 +15,7 @@ common warnings
 test-suite wire-bloodhound-tests-test
     import:           warnings
     default-language: GHC2021
-    -- other-modules:
+    other-modules: Lib
     -- other-extensions:
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test
