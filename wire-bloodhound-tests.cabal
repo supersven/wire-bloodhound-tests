@@ -1,0 +1,24 @@
+cabal-version:      3.4
+name:               wire-bloodhound-tests
+version:            0.1.0.0
+synopsis:           Tests for our Bloodhound fork
+homepage:           https://github.com/supersven/wire-bloodhound-tests
+license:            AGPL-3.0-only
+author:             Sven Tennie
+maintainer:         sven.tennie@wire.com
+category:           Testing
+build-type:         Simple
+
+common warnings
+    ghc-options: -Wall
+
+test-suite wire-bloodhound-tests-test
+    import:           warnings
+    default-language: GHC2021
+    -- other-modules:
+    -- other-extensions:
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test
+    main-is:          Main.hs
+    build-depends:    base ^>=4.18.2.1
+                      , bloodhound
