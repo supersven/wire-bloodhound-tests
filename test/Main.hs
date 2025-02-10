@@ -32,12 +32,22 @@ tests esUrl = do
       -- TODO: ES.isCreated expects statusCode 201 and thus fails!
       -- ES.isCreated reply `shouldBe` True
       (statusCode . responseStatus) reply `shouldBe` 200
-  describe "putMapping" $ do
+
+  describe "putNamedMapping" $ do
     it "can put our mapping" $ do
       reply <- runBH esUrl $ do
         idx :: ES.IndexName <- liftIO $ generate genIndexName
         createIndexWith [ES.AnalysisSetting analysisSettings] idx
         ES.putNamedMapping idx (ES.MappingName "_doc") indexMapping
+      traceM $ "Reply " ++ show reply
+      ES.isSuccess reply `shouldBe` True
+
+  describe "putMapping" $ do
+    it "can put our mapping" $ do
+      reply <- runBH esUrl $ do
+        idx :: ES.IndexName <- liftIO $ generate genIndexName
+        createIndexWith [ES.AnalysisSetting analysisSettings] idx
+        ES.putMapping idx indexMapping
       traceM $ "Reply " ++ show reply
       ES.isSuccess reply `shouldBe` True
 
