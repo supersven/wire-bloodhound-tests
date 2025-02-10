@@ -3,6 +3,7 @@
 -- | Test helper functions and imports (copies) from wire-server.
 module Lib where
 
+import Control.Monad
 import Control.Monad.IO.Class
 import Data.Text
 import Data.Text qualified as Text
@@ -19,6 +20,11 @@ genIndexName :: Gen ES.IndexName
 genIndexName =
   ES.IndexName . Text.pack
     <$> (listOf (elements ['a' .. 'z']) `suchThat` ((< 255) . Prelude.length))
+
+createIndexWith :: (ES.MonadBH m) => [ES.UpdatableIndexSetting] -> ES.IndexName -> m ()
+createIndexWith settings idx = do
+  reply <- ES.createIndexWith settings 1 idx
+  unless (ES.isSuccess reply) (error ("Index creation failed:\n" ++ show reply))
 
 --- Blow is wire-server code
 

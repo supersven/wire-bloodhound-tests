@@ -17,6 +17,7 @@ test-suite wire-bloodhound-tests-test
     default-language: GHC2021
     other-modules:    Lib
                       , PutMapping
+                      , IndexDocument
     -- other-extensions:
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test
