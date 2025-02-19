@@ -18,6 +18,7 @@ test-suite wire-bloodhound-tests-test
     other-modules:    Lib
                       , PutMapping
                       , IndexDocument
+                      , ErrorParsing
     -- other-extensions:
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test
